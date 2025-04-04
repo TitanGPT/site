@@ -616,75 +616,81 @@ footer {
 /* --- Адаптивность (Media Query for Mobile) --- */
 @media (max-width: 768px) {
     main {
-        padding: 1.5rem 4%; /* Slightly adjusted padding */
+        padding: 1.5rem 4%;
     }
 
     /* --- Header --- */
     header {
-        padding: 0.8rem 4%; /* Adjusted header padding */
-        /* Ensure header content doesn't overflow */
-        position: sticky; /* Make sure it stays sticky */
+        padding: 0.8rem 4%;
+        position: sticky;
         top: 0;
         z-index: 1000;
-        background: rgba(10, 10, 31, 0.95); /* Slightly more opaque background */
-        backdrop-filter: blur(8px); /* Adjust blur */
+        background: rgba(10, 10, 31, 0.95);
+        backdrop-filter: blur(8px);
     }
+
+    /* Ensure the main nav container uses flex and distributes space */
     header nav {
-        /* Ensure logo and nav fit */
+        display: flex;
+        justify-content: space-between; /* !! ВАЖНО: Распределяем место между лого и списком */
         align-items: center;
+        width: 100%; /* Убедимся, что nav занимает всю ширину */
     }
 
     .header-logo {
-        height: 28px; /* Further reduce logo size for small screens */
-        flex-shrink: 0; /* Prevent logo from shrinking too much */
+        height: 28px;
+        flex-shrink: 0; /* Не даем логотипу сжиматься */
+        flex-grow: 0; /* Не даем логотипу расти */
+        margin-right: 5px; /* Небольшой отступ справа от лого */
     }
 
-    /* --- Making Navigation Visible and Adapting --- */
+    /* --- !! Форсируем видимость навигации --- */
     nav ul {
-        /* display: none; */ /* REMOVED this line to show the nav */
-        display: flex; /* Ensure it's flex */
-        justify-content: flex-end; /* Align items to the right */
-        align-items: center; /* Align vertically */
-        flex-wrap: nowrap; /* Prevent wrapping */
-        overflow-x: auto; /* Allow horizontal scrolling if needed (fallback) */
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-        scrollbar-width: none; /* Hide scrollbar for Firefox */
-        flex-grow: 1; /* Allow it to take space */
-        margin-left: 8px; /* Small gap from logo */
-        padding: 0; /* Reset padding */
-    }
-    /* Hide scrollbar for Chrome/Safari/Edge */
-    nav ul::-webkit-scrollbar {
-      display: none;
-    }
+        /* Форсируем отображение и видимость */
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
 
+        /* Основные стили Flexbox */
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        flex-grow: 1; /* Позволяем списку занять оставшееся место */
+        justify-content: flex-end; /* Выравниваем пункты вправо */
+        align-items: center; /* Выравниваем по вертикали */
+        flex-wrap: nowrap; /* Запрещаем перенос пунктов */
+        overflow: hidden; /* Скрываем то, что не влезло (лучше чем скролл для начала) */
+        min-width: 0; /* Позволяем сжиматься */
+         /* background-color: rgba(255, 0, 0, 0.2); */ /* !! Раскомментируйте эту строку для теста - появится красный фон у меню */
+    }
 
     nav ul li {
-        margin: 0 2px; /* Minimal horizontal margin */
+        margin: 0 1px; /* Минимальный отступ между пунктами */
         padding: 0;
-        flex-shrink: 0; /* Prevent items from shrinking */
+        flex-shrink: 0; /* Запрещаем сжатие самих пунктов */
     }
 
     nav ul li a {
-        font-size: 0.75em; /* Significantly reduced font size */
-        padding: 0.4rem 0.3rem; /* Adjusted padding */
-        white-space: nowrap; /* Prevent text wrapping */
-        display: inline-block; /* Ensure padding works */
-        line-height: 1; /* Adjust line height */
+        display: inline-block; /* Обязательно для padding */
+        font-size: 0.8em; /* Маленький шрифт */
+        padding: 6px 4px; /* Небольшие отступы для касания */
+        color: var(--primary-neon) !important; /* Форсируем цвет */
+        white-space: nowrap; /* Не переносить текст */
+        text-decoration: none;
+        line-height: 1;
     }
 
-    /* Adjust or hide the underline effect */
-    nav ul li a::after {
-        bottom: -3px; /* Adjust position */
-        height: 1px; /* Make it thinner */
-        /* display: none; */ /* Uncomment to hide completely */
-    }
-    nav ul li a.active {
-        /* Slightly less prominent shadow on mobile */
-        text-shadow: 0 0 3px var(--secondary-neon);
-    }
+     /* Скрываем подчеркивание на мобильных */
+     nav ul li a::after {
+         display: none !important;
+     }
+
+     /* Стиль активной ссылки */
+     nav ul li a.active {
+         color: var(--secondary-neon) !important;
+         text-shadow: 0 0 3px var(--secondary-neon);
+     }
     /* --- End of Navigation Adjustment --- */
-
 
     /* --- Hero Section --- */
     .hero {
@@ -926,31 +932,60 @@ footer {
 } /* End of @media (max-width: 768px) */
 
 
-/* --- Larger screen adjustments (Optional: Refine logo/nav spacing if needed) --- */
+/* --- Larger screen adjustments (Восстанавливаем стили для десктопа) --- */
 @media (min-width: 769px) {
     .header-logo {
         height: 40px; /* Original size for larger screens */
-    }
-    /* Restore nav styles for larger screens if they were overly changed above */
-     nav ul {
-         justify-content: flex-start; /* Or default */
-         flex-grow: 0; /* Or default */
-         margin-left: 0; /* Or default */
-         overflow-x: visible; /* Ensure no scrollbar */
-     }
-     nav ul li {
-         margin: 0; /* Reset mobile margin */
-         margin-left: 2.5rem; /* Restore original margin */
-     }
-      nav ul li a {
-         font-size: 1.1em; /* Restore original font size */
-         padding: 0.5rem 0; /* Restore original padding */
-         white-space: normal; /* Allow wrapping again */
-     }
-     nav ul li a::after {
-        bottom: -5px; /* Restore position */
-        height: 2px; /* Restore thickness */
-        /* display: block; */ /* Ensure visible if hidden on mobile */
+         margin-right: 0; /* Reset mobile margin */
     }
 
+    /* Восстанавливаем стили nav для десктопа */
+     header nav {
+         /* Можно оставить space-between или вернуть к исходному, если он был другим */
+         justify-content: space-between;
+     }
+
+    /* Восстанавливаем стили ul */
+     nav ul {
+         /* Убираем !important, если проблема решена */
+         display: flex !important; /* Оставляем !important на display на всякий случай */
+         visibility: visible !important;
+         opacity: 1 !important;
+
+         flex-grow: 0; /* Не растягиваем */
+         justify-content: flex-start; /* Выравнивание по умолчанию */
+         overflow: visible; /* Убираем скрытие */
+         min-width: auto; /* Сбрасываем мин. ширину */
+         background-color: transparent; /* Убираем фон для дебага */
+     }
+
+     /* Восстанавливаем стили li */
+     nav ul li {
+         margin: 0;
+         margin-left: 2.5rem; /* Возвращаем отступ */
+         flex-shrink: 1; /* Возвращаем возможность сжатия по умолчанию */
+     }
+
+     /* Восстанавливаем стили ссылок */
+      nav ul li a {
+         font-size: 1.1em;
+         padding: 0.5rem 0;
+         white-space: normal; /* Разрешаем перенос */
+         color: var(--primary-neon) !important; /* Убираем !important, если не нужен */
+     }
+
+     /* Восстанавливаем подчеркивание */
+     nav ul li a::after {
+        display: block !important; /* Показываем снова */
+        bottom: -5px;
+        height: 2px;
+    }
+
+    /* Восстанавливаем активный стиль */
+     nav ul li a.active {
+         color: var(--secondary-neon) !important; /* Убираем !important, если не нужен */
+         text-shadow: 0 0 5px var(--secondary-neon);
+     }
+
+     /* Add any other desktop-specific overrides if necessary */
 }
