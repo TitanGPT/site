@@ -136,6 +136,153 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Логика Бургер-меню ---
+    const menuToggle = document.getElementById('menuToggle');
+    const mainMenu = document.getElementById('main-menu');
+    const body = document.body; // Получаем body
+
+    if (menuToggle && mainMenu) {
+        menuToggle.addEventListener('click', () => {
+            // Переключаем класс is-active у кнопки
+            menuToggle.classList.toggle('is-active');
+            // Переключаем класс is-active у меню
+            mainMenu.classList.toggle('is-active');
+
+            // Управляем aria-expanded
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+
+            // (Опционально) Блокируем скролл страницы, когда меню открыто
+            if (mainMenu.classList.contains('is-active')) {
+                body.style.overflow = 'hidden'; // Запретить скролл
+            } else {
+                body.style.overflow = ''; // Разрешить скролл
+            }
+        });
+
+        // (Опционально) Закрываем меню при клике на ссылку внутри него
+        mainMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (mainMenu.classList.contains('is-active')) {
+                    menuToggle.classList.remove('is-active');
+                    mainMenu.classList.remove('is-active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    body.style.overflow = ''; // Разрешить скролл
+                }
+            });
+        });
+
+         // (Опционально) Закрываем меню при клике вне его области
+         document.addEventListener('click', (event) => {
+            const isClickInsideMenu = mainMenu.contains(event.target);
+            const isClickOnToggler = menuToggle.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnToggler && mainMenu.classList.contains('is-active')) {
+                 menuToggle.classList.remove('is-active');
+                 mainMenu.classList.remove('is-active');
+                 menuToggle.setAttribute('aria-expanded', 'false');
+                 body.style.overflow = ''; // Разрешить скролл
+            }
+         });
+    }
+
+    // --- Логика подсветки активного пункта меню ---
+    const currentPath = window.location.pathname.split("/").pop() || 'index.html'; // Получаем имя текущего файла
+    const navLinks = mainMenu ? mainMenu.querySelectorAll('a') : []; // Получаем ссылки из меню
+
+    navLinks.forEach(link => {
+        const linkPath = link.getAttribute('href').split("/").pop();
+        // Убираем класс active у всех ссылок сначала
+        link.classList.remove('active');
+        // Добавляем класс active, если путь совпадает
+        if (linkPath === currentPath) {
+            link.classList.add('active');
+        }
+    });
+
+
+    // --- Логика анимаций при скролле (ВАШ СУЩЕСТВУЮЩИЙ КОД ИЛИ НОВЫЙ) ---
+    // Пример:
+    const animatedElements = document.querySelectorAll('.animated');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Определяем тип анимации из классов элемента
+                let animationClass = '';
+                if (entry.target.classList.contains('fadeIn')) {
+                    animationClass = 'run-fadeIn';
+                } else if (entry.target.classList.contains('slideInUp')) {
+                    animationClass = 'run-slideInUp';
+                }
+                // Добавляем класс для ЗАПУСКА анимации
+                if (animationClass) {
+                    entry.target.classList.add(animationClass);
+                }
+                // Перестаем наблюдать за элементом после анимации
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1 // Порог срабатывания (10% элемента видно)
+    });
+
+    animatedElements.forEach(el => {
+        observer.observe(el);
+    });
+
+     // --- Логика для страницы Генерации (если она у вас была или будет) ---
+     const widthSlider = document.getElementById('imageWidth');
+     const widthValueSpan = document.getElementById('widthValue');
+     const heightSlider = document.getElementById('imageHeight');
+     const heightValueSpan = document.getElementById('heightValue');
+     // ... другие элементы формы ...
+
+     if (widthSlider && widthValueSpan) {
+         widthValueSpan.textContent = widthSlider.value; // Начальное значение
+         widthSlider.oninput = function() {
+             widthValueSpan.textContent = this.value;
+         }
+     }
+
+     if (heightSlider && heightValueSpan) {
+         heightValueSpan.textContent = heightSlider.value; // Начальное значение
+         heightSlider.oninput = function() {
+             heightValueSpan.textContent = this.value;
+         }
+     }
+
+     // --- Логика фильтрации моделей ---
+     const companyFilter = document.getElementById('companyFilter');
+     const modelsContainer = document.getElementById('modelsContainer');
+     const allModelCards = modelsContainer ? modelsContainer.querySelectorAll('.model-card') : [];
+
+     if (companyFilter && modelsContainer && allModelCards.length > 0) {
+         companyFilter.addEventListener('change', function() {
+             const selectedCompany = this.value;
+
+             allModelCards.forEach(card => {
+                 const cardCompany = card.dataset.company; // Получаем data-company атрибут
+                 // Показываем карточку, если выбрано "Все" или компания совпадает
+                 if (selectedCompany === 'all' || cardCompany === selectedCompany) {
+                     card.style.display = 'flex'; // Или 'block', если верстка не flex
+                     // Задержка для плавного появления (если нужно)
+                     setTimeout(() => card.style.opacity = 1, 50);
+                 } else {
+                     // Скрываем карточку
+                     card.style.opacity = 0;
+                      setTimeout(() => card.style.display = 'none', 300); // Скрываем после затухания
+                 }
+             });
+         });
+     }
+
+
+}); // Конец DOMContentLoaded
+
+    
     // --- Animation Trigger Logic (Для всех страниц с классом .animated) ---
     // Находим все элементы с классом .animated
     const animatedElements = document.querySelectorAll('.animated');
