@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Генерация Изображений - Titan-GPT</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+<nav>
+<div class="logo">
+        <img src="images/logo.png" alt="Titan-GPT" class="header-logo">
+        </div>
+<ul>
+<li><a href="index.html">О боте</a></li>
+<li><a href="models.html">Модели</a></li>
+<!-- Add the new link and make it active -->
+<li><a href="generate.html" class="active">Генерация</a></li>
+<li><a href="contact.html">Контакты</a></li>
+</ul>
+</nav>
+</header>   
+
+    <main>
+        <section class="page-title animated fadeIn">
+            <h1 class="neon-text-blue">Генерация Изображений</h1>
+            <p>Воплотите свои идеи в визуальные шедевры с помощью ИИ.</p>
+        </section>
+
+        <section class="generation-form-section animated fadeIn delay-1">
+            <form id="generationForm">
+                <div class="form-group">
+                    <label for="promptInput" class="neon-text-green">Ваш Промпт (Запрос):</label>
+                    <textarea id="promptInput" name="prompt" rows="4" placeholder="Например: Киберпанк город ночью под дождем, неоновые вывески, летающие машины, фотореалистично" required></textarea>
+                </div>
+
+                <div class="form-group options-grid">
+                    <div class="option-item">
+                        <label for="enhanceCheckbox" class="checkbox-label">
+                            <input type="checkbox" id="enhanceCheckbox" name="enhance">
+                            <span class="checkmark"></span>
+                            Улучшить (Enhance)
+                        </label>
+                    </div>
+
+                    <div class="option-item">
+                        <label for="seedInput" class="neon-text-green">Seed (зерно генерации):</label>
+                        <input type="number" id="seedInput" name="seed" min="-1" placeholder="Оставьте пустым или -1 для случайного">
+                        <small>Одинаковый Seed при том же промпте дает похожий результат.</small>
+                    </div>
+                </div>
+
+                 <div class="form-group sliders-grid">
+                     <div class="slider-item">
+                         <label for="widthSlider" class="neon-text-green">Ширина:</label>
+                         <input type="range" id="widthSlider" name="width" min="1024" max="4096" step="64" value="1024">
+                         <span id="widthValueDisplay" class="slider-value">1024</span> px
+                     </div>
+                     <div class="slider-item">
+                        <label for="heightSlider" class="neon-text-green">Высота:</label>
+                        <input type="range" id="heightSlider" name="height" min="1024" max="4096" step="64" value="1024">
+                        <span id="heightValueDisplay" class="slider-value">1024</span> px
+                    </div>
+                 </div>
+
+
+                <div class="form-group submit-group">
+                    <button type="submit" id="generateButton" class="cta-button">Сгенерировать</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="resultSection" class="result-section" style="display: none;">
+            <h2 class="neon-text-blue">Результат</h2>
+            <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+                <div class="spinner"></div>
+                <p>Генерация изображения... Пожалуйста, подождите.</p>
+            </div>
+            <div id="errorDisplay" class="error-message" style="display: none;"></div>
+            <div id="imageResult" class="image-result" style="display: none;">
+                 <img id="generatedImage" src="" alt="Сгенерированное изображение">
+                 <a id="downloadLink" href="" download="generated_image.png" class="cta-button download-button" style="display: none;">Скачать</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2024 - 2025 Titan-GPT. Все права защищены.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

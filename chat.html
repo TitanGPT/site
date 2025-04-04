@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Измените title для новой страницы -->
+    <title>Чат с Titan-GPT - Telegram AI Bot</title>
+    <!-- Подключаем тот же CSS, что и на главной -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Дополнительные стили ИМЕННО для чата можно вынести в отдельный файл или добавить в style.css -->
+    <style>
+        /* Базовые стили для чата - лучше перенести в style.css */
+        .chat-container {
+            max-width: 800px; /* или другая ширина */
+            margin: 20px auto; /* Центрирование */
+            padding: 20px;
+            border: 1px solid #0ff; /* Неоновая рамка */
+            border-radius: 8px;
+            background-color: rgba(10, 20, 40, 0.8); /* Полупрозрачный темный фон */
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        #chat-box {
+            height: 400px; /* Высота окна чата */
+            overflow-y: auto; /* Включаем скролл */
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #0aa; /* Внутренняя рамка */
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #eee; /* Светлый текст сообщений */
+            display: flex;
+            flex-direction: column; /* Сообщения идут сверху вниз */
+        }
+
+        .message {
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            border-radius: 15px;
+            max-width: 70%;
+            word-wrap: break-word; /* Перенос слов */
+        }
+
+        .user-message {
+            background-color: #0a4; /* Зеленоватый для пользователя */
+            color: #fff;
+            align-self: flex-end; /* Сообщение пользователя справа */
+            border-bottom-right-radius: 5px; /* Стиль "облачка" */
+        }
+
+        .bot-message {
+            background-color: #44a; /* Синеватый для бота */
+            color: #fff;
+            align-self: flex-start; /* Сообщение бота слева */
+             border-bottom-left-radius: 5px; /* Стиль "облачка" */
+        }
+
+         /* Стиль контейнера для поля ввода и кнопки */
+        #input-area {
+            display: flex;
+            align-items: center; /* Выравниваем по центру по вертикали */
+            gap: 10px; /* Пространство между полем и кнопкой */
+        }
+
+        #user-input {
+            flex-grow: 1; /* Поле ввода занимает все доступное место */
+            padding: 10px;
+            border: 1px solid #0ff;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #eee;
+            font-family: 'Orbitron', sans-serif; /* Используем тот же шрифт */
+            resize: none; /* Запрещаем изменение размера textarea */
+            height: 40px; /* Начальная высота */
+        }
+
+        #send-button {
+            padding: 10px 20px;
+            background-color: transparent;
+            color: #0f0; /* Цвет текста кнопки (зеленый неон) */
+            border: 2px solid #0f0; /* Зеленая неоновая рамка */
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            white-space: nowrap; /* Чтобы текст не переносился */
+        }
+
+        #send-button:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 10px #0f0;
+        }
+
+        /* Стили для виджета Telegram (можно настроить) */
+        #telegram-login-widget {
+             display: none; /* Изначально скрыт */
+             margin-top: 20px;
+             text-align: center; /* Центрируем кнопку */
+             padding: 15px;
+             border: 1px dashed #0aa;
+             border-radius: 5px;
+        }
+        #telegram-login-widget p {
+             margin-bottom: 15px;
+             color: #0ff; /* Неоновый синий для текста */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Копируем шапку сайта из index.html -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="images/logo.png" alt="Titan-GPT" class="header-logo">
+            </div>
+            <ul>
+                <!-- Убираем класс active с "О боте" -->
+                <li><a href="index.html">О боте</a></li>
+                <!-- Добавляем ссылку на чат и делаем ее активной -->
+                <li><a href="chat.html" class="active">Чат</a></li>
+                <li><a href="models.html">Модели</a></li>
+                <li><a href="contact.html">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Контейнер для всего чата -->
+        <section class="chat-container animated fadeIn">
+            <h2 class="neon-text-blue" style="text-align: center; margin-bottom: 20px;">Чат с Titan-GPT</h2>
+
+            <!-- Окно для отображения сообщений -->
+            <div id="chat-box">
+                <!-- Сообщения будут добавляться сюда с помощью JavaScript -->
+                <!-- Пример начального сообщения от бота -->
+                <div class="message bot-message">Привет! Я Titan-GPT. Спроси меня что-нибудь. У тебя есть 5 бесплатных сообщений.</div>
+            </div>
+
+             <!-- Область ввода сообщения и кнопка отправки -->
+            <div id="input-area">
+                <textarea id="user-input" placeholder="Введите ваше сообщение..." rows="1"></textarea>
+                <button id="send-button">Отправить</button>
+            </div>
+
+            <!-- Место для виджета авторизации Telegram -->
+            <div id="telegram-login-widget">
+                <p>Лимит бесплатных сообщений исчерпан.<br>Авторизуйтесь через Telegram для продолжения общения.</p>
+                <!-- Сюда нужно будет вставить скрипт Telegram Login Widget -->
+                <!-- ЗАМЕНИТЕ YOUR_BOT_USERNAME и YOUR_AUTH_CALLBACK_URL на ваши реальные значения -->
+                <script async src="https://telegram.org/js/telegram-widget.js?22"
+                        data-telegram-login="YOUR_BOT_USERNAME"
+                        data-size="large"
+                        data-auth-url="YOUR_AUTH_CALLBACK_URL"
+                        data-request-access="write"></script>
+                <!--
+                    ВАЖНО:
+                    - YOUR_BOT_USERNAME: Имя вашего Telegram бота (например, MySuperChatBot).
+                    - YOUR_AUTH_CALLBACK_URL: URL на вашем бэкенде, который будет обрабатывать данные после авторизации пользователя
+                      (например, https://yourdomain.com/auth/telegram/callback). Этот URL должен быть https.
+                    - Не забудьте настроить домен вашего сайта в настройках бота через @BotFather командой /setdomain
+                 -->
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Копируем подвал сайта из index.html -->
+    <footer>
+        <p>© 2024 - 2025 Titan-GPT. Все права защищены.</p>
+    </footer>
+
+    <!-- Подключаем основной скрипт (если он есть) -->
+    <script src="script.js"></script>
+    <!-- Добавляем JavaScript ИМЕННО для чата -->
+    <script>
+        // Получаем элементы DOM
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const inputArea = document.getElementById('input-area'); // Контейнер поля ввода и кнопки
+        const telegramLoginWidget = document.getElementById('telegram-login-widget');
+
+        // Счетчик сообщений (для примера, на реальном проекте счетчик должен быть на бэкенде)
+        let messageCount = 0;
+        const freeMessageLimit = 5;
+        let isLimitReached = false; // Флаг, что лимит достигнут
+
+        // Функция добавления сообщения в чат
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            messageDiv.textContent = text;
+            chatBox.appendChild(messageDiv);
+            // Прокрутка вниз к последнему сообщению
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Функция отправки сообщения (ПОКА ТОЛЬКО ФРОНТЕНД ЛОГИКА)
+        function sendMessage() {
+            const userText = userInput.value.trim();
+
+            if (!userText) {
+                return; // Не отправляем пустое сообщение
+            }
+
+            if (isLimitReached) {
+                 addMessage("Лимит бесплатных сообщений исчерпан. Пожалуйста, авторизуйтесь через Telegram.", 'bot');
+                return; // Не даем отправить больше
+            }
+
+            // Отображаем сообщение пользователя
+            addMessage(userText, 'user');
+            userInput.value = ''; // Очищаем поле ввода
+            userInput.style.height = '40px'; // Сбрасываем высоту textarea
+
+            messageCount++; // Увеличиваем счетчик
+
+            // --- ВАЖНО: Логика БЭКЕНДА ---
+            // Здесь должен быть fetch-запрос на ваш бэкенд:
+            // 1. Отправить userText на ваш API эндпоинт.
+            // 2. Бэкенд проверяет авторизацию/лимит, вызывает API ИИ.
+            // 3. Бэкенд возвращает ответ ИИ или сообщение об ошибке/лимите.
+            // --------------------------------
+
+            // --- Имитация ответа от бэкенда (ЗАМЕНИТЬ НА РЕАЛЬНЫЙ ЗАПРОС) ---
+            let botResponse = "Думаю...";
+             addMessage(botResponse, 'bot'); // Показываем временный ответ
+
+            setTimeout(() => {
+                 // Имитация получения реального ответа
+                 const realBotResponse = `Это мой ответ на ваше сообщение номер ${messageCount}: "${userText}"`; // Заглушка
+                 // Заменяем "Думаю..." на реальный ответ (или добавляем новый, если нужно)
+                 const thinkingMessage = chatBox.querySelector('.bot-message:last-child');
+                 if (thinkingMessage && thinkingMessage.textContent === "Думаю...") {
+                     thinkingMessage.textContent = realBotResponse;
+                 } else {
+                     addMessage(realBotResponse, 'bot'); // Если что-то пошло не так, просто добавляем
+                 }
+
+
+                // Проверяем лимит ПОСЛЕ получения ответа
+                if (messageCount >= freeMessageLimit) {
+                    isLimitReached = true;
+                    // Показываем сообщение о лимите и кнопку авторизации
+                    addMessage("Вы использовали все бесплатные сообщения. Авторизуйтесь через Telegram для продолжения.", 'bot');
+                    inputArea.style.display = 'none'; // Скрываем поле ввода и кнопку
+                    telegramLoginWidget.style.display = 'block'; // Показываем блок авторизации
+                }
+            }, 1500); // Имитация задержки ответа от ИИ
+            // ------------------------------------------------------------------
+        }
+
+        // Обработчик клика по кнопке "Отправить"
+        sendButton.addEventListener('click', sendMessage);
+
+        // Обработчик нажатия Enter в поле ввода
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) { // Отправка по Enter, Shift+Enter для новой строки
+                event.preventDefault(); // Предотвращаем перенос строки по умолчанию
+                sendMessage();
+            }
+        });
+
+         // Автоматическое изменение высоты textarea при вводе текста
+         userInput.addEventListener('input', () => {
+            userInput.style.height = 'auto'; // Сначала сбросить высоту
+            userInput.style.height = userInput.scrollHeight + 'px'; // Установить новую высоту
+        });
+
+        // --- Логика ПОСЛЕ авторизации через Telegram ---
+        // ЭТУ ФУНКЦИЮ НУЖНО БУДЕТ ВЫЗВАТЬ, КОГДА ВАШ БЭКЕНД
+        // ПОДТВЕРДИТ УСПЕШНУЮ АВТОРИЗАЦИЮ ПОЛЬЗОВАТЕЛЯ
+        function handleSuccessfulLogin() {
+            console.log("Telegram Login Succeeded (simulated)");
+            isLimitReached = false; // Сбрасываем флаг лимита
+            telegramLoginWidget.style.display = 'none'; // Скрываем кнопку авторизации
+            inputArea.style.display = 'flex'; // Показываем обратно поле ввода и кнопку
+            addMessage("Авторизация успешна! Можете продолжать общение.", 'bot');
+            // Возможно, стоит обновить состояние на бэкенде, что пользователь авторизован
+        }
+
+        // Для тестирования можно вызвать вручную из консоли: handleSuccessfulLogin()
+        // В реальности эта функция будет вызываться в callback'е после успешной проверки данных от Telegram на бэкенде.
+
+    </script>
+</body>
+</html>
