@@ -21,7 +21,7 @@
 </ul>
 </nav>
 </header>
-<!-- Убран лишний   отсюда -->
+<!-- Убран лишний неразрывный пробел отсюда -->
 <main>
     <section class="page-title animated fadeIn">
         <h1 class="neon-text-blue">Доступные Модели ИИ</h1>
@@ -49,7 +49,7 @@
         <!-- OpenAI Models -->
         <div class="model-card animated slideInUp" data-company="OpenAI">
             <div class="model-visual">
-                <img src="images/openai.png" alt="Логотип OpenAI GPT-4.5"> <!-- Уточнено alt -->
+                <img src="images/openai.png" alt="Логотип OpenAI GPT-4.5">
             </div>
             <div class="model-description">
                 <h2 class="neon-text-green">Модель "GPT-4.5"</h2>
@@ -58,13 +58,11 @@
                 <span class="model-tag">Гибридное мышление</span>
                 <span class="model-tag">Эмоциональный интеллект</span>
             </div>
-            <!-- *** ИСПРАВЛЕНО: Карточка o3-mini была некорректно вложена внутри описания GPT-4.5. Теперь она отдельная карточка. *** -->
         </div> <!-- Конец карточки GPT-4.5 -->
 
         <div class="model-card animated slideInUp" data-company="OpenAI">
-             <!-- Добавлен model-visual для консистентности -->
             <div class="model-visual">
-                 <img src="images/openai.png" alt="Логотип OpenAI o3-mini"> <!-- Можно использовать тот же лого или специальный -->
+                 <img src="images/openai.png" alt="Логотип OpenAI o3-mini">
             </div>
             <div class="model-description">
                 <h2 class="neon-text-green">Модель "o3-mini"</h2>
@@ -86,7 +84,22 @@
                 <span class="model-tag">Real-time</span>
                 <span class="model-tag">Интерактивность</span>
             </div>
-        </div>
+            <!-- *** ИСПРАВЛЕНО: Карточка GPT-4o ЗАКРЫТА здесь *** -->
+        </div> <!-- Конец карточки GPT-4o -->
+
+        <!-- *** ИСПРАВЛЕНО: Карточка GPT-4o Audio теперь ОТДЕЛЬНАЯ карточка ПОСЛЕ GPT-4o *** -->
+        <div class="model-card animated slideInUp" data-company="OpenAI">
+            <div class="model-visual">
+                <img src="images/openai.png" alt="Логотип OpenAI GPT-4o Audio">
+            </div>
+            <div class="model-description">
+                <h2 class="neon-text-green">Модель "GPT-4o Audio"</h2>
+                <p>Продвинутый аудиомодуль GPT-4o с живой речью. Обеспечивает почти мгновенный отклик (до 232 мс) и способен распознавать тональность, эмоции, шумы и фон. Может вести полноценный голосовой диалог в реальном времени, отвечать на шутки, петь и даже реагировать на интонацию собеседника. В сочетании с мультимодальностью делает GPT-4o полноценным голосовым ИИ-компаньоном.</p>
+                <span class="model-tag">Голосовой ИИ</span>
+                <span class="model-tag">Эмоции и интонация</span>
+                <span class="model-tag">Реальное время</span>
+            </div>
+        </div> <!-- Конец карточки GPT-4o Audio -->
 
         <div class="model-card animated slideInUp" data-company="OpenAI">
             <div class="model-visual">
@@ -99,29 +112,25 @@
                 <span class="model-tag">Эффективность</span>
                 <span class="model-tag">Доступность</span>
             </div>
-        </div>
+        </div> <!-- Конец карточки GPT-4o Mini -->
 
         <!-- Anthropic Models -->
-        <!-- *** ИСПРАВЛЕНО: Убраны два лишних закрывающих тега </div> отсюда *** -->
-
          <div class="model-card animated slideInUp" data-company="Anthropic">
             <div class="model-visual">
-                 <!-- Используйте логотип Anthropic, если есть -->
-                 <img src="images/claude.png" alt="Логотип Anthropic Claude 3.7 Sonnet"> <!-- Уточнено alt -->
-                </div>
-                <div class="model-description">
-                    <h2 class="neon-text-green">Модель "Claude 3.7 Sonnet"</h2>
-                    <p>Мощная модель семейства Claude 3.7, обеспечивающая быстрые ответы и глубокие размышления. Идеальна для задач, требующих балансировки между производительностью и детализированными ответами: поддержка клиентов, создание контента, переводы, анализ данных. Обеспечивает оптимальное соотношение цена/скорость для разнообразных задач.</p>
-                    <span class="model-tag">Гибридное мышление</span>
-                    <span class="model-tag">Высокая производительность</span>
-                    <span class="model-tag">Модерация</span>
-                </div>
-        </div>
+                 <img src="images/claude.png" alt="Логотип Anthropic Claude 3.7 Sonnet">
+            </div>
+            <div class="model-description">
+                <h2 class="neon-text-green">Модель "Claude 3.7 Sonnet"</h2>
+                <p>Мощная модель семейства Claude 3.7, обеспечивающая быстрые ответы и глубокие размышления. Идеальна для задач, требующих балансировки между производительностью и детализированными ответами: поддержка клиентов, создание контента, переводы, анализ данных. Обеспечивает оптимальное соотношение цена/скорость для разнообразных задач.</p>
+                <span class="model-tag">Гибридное мышление</span>
+                <span class="model-tag">Высокая производительность</span>
+                <span class="model-tag">Модерация</span>
+            </div>
+        </div> <!-- Конец карточки Claude 3.7 Sonnet -->
 
         <!-- Google Models -->
          <div class="model-card animated slideInUp" data-company="Google">
             <div class="model-visual">
-                <!-- Создайте или найдите логотип Google Gemini -->
                 <img src="images/google.png" alt="Логотип Google Gemini 1.5 Pro">
             </div>
             <div class="model-description">
@@ -131,10 +140,10 @@
                 <span class="model-tag">Мультимодальность</span>
                 <span class="model-tag">Глубокий анализ</span>
             </div>
-        </div>
+        </div> <!-- Конец карточки Gemini 1.5 Pro -->
+
          <div class="model-card animated slideInUp" data-company="Google">
             <div class="model-visual">
-                 <!-- Создайте или найдите логотип Google Gemini -->
                  <img src="images/google.png" alt="Логотип Google Gemini 1.5 Flash">
             </div>
             <div class="model-description">
@@ -144,26 +153,26 @@
                 <span class="model-tag">Высокая скорость</span>
                  <span class="model-tag">Эффективность</span>
             </div>
-        </div>
+        </div> <!-- Конец карточки Gemini 1.5 Flash -->
+
          <div class="model-card animated slideInUp" data-company="Google">
             <div class="model-visual">
-                 <!-- Создайте или найдите логотип Google Gemini -->
-                 <img src="images/google.png" alt="Логотип Google Gemini 2.0">
+                <img src="images/google.png" alt="Логотип Google Gemini 2.0">
             </div>
             <div class="model-description">
-                <h2 class="neon-text-green">Модель "Gemini 2.0" (Концепт)</h2>
-                <p>Гипотетическая следующая версия флагманской модели Google. Ожидается, что она предложит прорывные улучшения в области рассуждений, мультимодального понимания, возможно, представит новые способности взаимодействия (например, более продвинутое управление агентами) и станет еще более эффективной и интегрированной в экосистему Google.</p>
-                <span class="model-tag">Будущее поколение</span>
-                <span class="model-tag">Продвинутое рассуждение</span>
-                 <span class="model-tag">Новые возможности</span>
+                <h2 class="neon-text-green">Модель "Gemini 2.0"</h2>
+                <p>Новейшее поколение ИИ от Google, представленное в 2024 году. Объединяет язык, изображение, аудио, видео и код в единую архитектуру. Модель демонстрирует революционные способности в решении задач, мультимодальном взаимодействии и логических рассуждениях. Интегрирована с Android, Google Search и Workspace. Становится основой новых интеллектуальных агентов и приложений.</p>
+                <span class="model-tag">Полная мультимодальность</span>
+                <span class="model-tag">Интеграция в Android</span>
+                <span class="model-tag">Искусственный агент</span>
             </div>
-        </div>
+            <!-- *** ИСПРАВЛЕНО: УБРАН ЛИШНИЙ закрывающий тег </div> отсюда *** -->
+        </div> <!-- Конец карточки Gemini 2.0 -->
 
          <!-- xAI Models -->
          <div class="model-card animated slideInUp" data-company="xAI">
             <div class="model-visual">
-                 <!-- Создайте или найдите логотип xAI Grok -->
-                 <img src="images/xai.png" alt="Логотип xAI Grok V3"> <!-- Уточнено alt -->
+                 <img src="images/xai.png" alt="Логотип xAI Grok V3">
             </div>
             <div class="model-description">
                 <h2 class="neon-text-green">Модель "Grok V3"</h2>
@@ -173,7 +182,7 @@
                 <span class="model-tag">Усиленное обучение</span>
                 <span class="model-tag">DeepSearch</span>
             </div>
-        </div>
+        </div> <!-- Конец карточки Grok V3 -->
 
         <!-- Добавляйте другие модели сюда -->
 
@@ -182,8 +191,8 @@
 </main>
 
 <footer>
-    <!-- Убедитесь, что здесь актуальный копирайт -->
-    <p>© 2024 - 2025 Titan-GPT. Все права защищены</p>
+    <!-- *** ИСПРАВЛЕНО: Символ копирайта *** -->
+    <p>© 2024 - 2025 Titan-GPT. Все права защищены.</p>
 </footer>
 
 <script src="script.js"></script>
