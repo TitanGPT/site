@@ -16,6 +16,39 @@
     box-sizing: border-box;
 }
 
+/* --- Стили для Бургер Меню --- */
+.menu-toggle {
+    display: none; /* Скрыт по умолчанию на больших экранах */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px; /* Область клика */
+    z-index: 1001; /* Выше шапки, если шапка sticky */
+    position: relative; /* Для позиционирования линий */
+    width: 40px; /* Ширина кнопки */
+    height: 40px; /* Высота кнопки */
+}
+
+.menu-toggle .burger-line {
+    display: block;
+    width: 25px; /* Ширина линии */
+    height: 3px; /* Толщина линии */
+    background-color: var(--primary-neon);
+    margin: 5px auto; /* Отступы между линиями и центрирование */
+    transition: transform 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+    border-radius: 1px;
+}
+
+/* Анимация бургера в крестик при открытии (добавляем класс .is-active кнопке) */
+.menu-toggle.is-active .burger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg); /* Поднимаем и поворачиваем */
+}
+.menu-toggle.is-active .burger-line:nth-child(2) {
+    opacity: 0; /* Средняя линия исчезает */
+}
+.menu-toggle.is-active .burger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg); /* Опускаем и поворачиваем */
+}
 
 /* --- Стили для списка официальных аккаунтов на странице контактов --- */
 .official-list {
@@ -659,24 +692,83 @@ input[type="range"]::-moz-range-track {
 }
 
 
-/* Адаптивность для формы */
 @media (max-width: 768px) {
-    .generation-form-section {
-        padding: 1.5rem;
+    /* ... другие ваши мобильные стили (hero, features и т.д.) ... */
+
+    .logo { font-size: 1.5em; } /* Уменьшаем лого */
+
+    /* --- Показываем кнопку бургера --- */
+    .menu-toggle {
+        display: block; /* Показываем кнопку на мобильных */
     }
-    .options-grid, .sliders-grid {
-        grid-template-columns: 1fr; /* Одна колонка на мобильных */
-        gap: 1.5rem;
+
+    /* --- Стили для скрытого/показанного меню на мобильных --- */
+    nav ul#main-menu {
+        display: flex; /* Используем flex для удобства */
+        flex-direction: column; /* Элементы друг под другом */
+        position: absolute; /* Вырываем из потока */
+        top: 100%; /* Позиционируем под шапкой (если шапка sticky) */
+        /* Или top: 60px; если знаете точную высоту шапки и она не sticky */
+        left: 0;
+        right: 0;
+        background-color: rgba(10, 10, 31, 0.98); /* Фон для меню */
+        backdrop-filter: blur(5px);
+        border-top: 1px solid var(--border-color);
+        padding: 1rem 0; /* Отступы сверху/снизу */
+        margin: 0; /* Сброс внешних отступов */
+        list-style: none; /* Убрать маркеры */
+
+        /* === СКРЫВАЕМ ПО УМОЛЧАНИЮ === */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px); /* Небольшой сдвиг вверх */
+        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        z-index: 999; /* Ниже шапки, если она sticky с z-index 1000 */
     }
-    .generation-form-section input[type="number"] {
-         max-width: none; /* Снять ограничение ширины */
+
+    /* --- Стили для ОТКРЫТОГО меню (когда у UL есть класс .is-active) --- */
+    nav ul#main-menu.is-active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0); /* Возвращаем на место */
     }
-    .slider-item {
-        align-items: center; /* Центрировать лейбл и значение на мобильных */
+
+    /* --- Стили для пунктов меню в открытом состоянии --- */
+    nav ul#main-menu li {
+        margin: 0; /* Убираем отступы по бокам */
+        width: 100%; /* На всю ширину */
+        text-align: center; /* Центрируем текст */
     }
-    .slider-value {
-        text-align: center;
+
+    nav ul#main-menu li a {
+        display: block; /* Делаем ссылку блочной */
+        padding: 1rem 1.5rem; /* Увеличиваем область клика */
+        font-size: 1.2em; /* Можно увеличить шрифт */
+        border-bottom: 1px solid rgba(0, 255, 255, 0.1); /* Разделитель */
     }
+    nav ul#main-menu li:last-child a {
+        border-bottom: none; /* Убрать у последнего */
+    }
+
+    /* Убираем подчеркивание при ховере, если оно мешает */
+    nav ul#main-menu li a::after {
+        display: none;
+    }
+
+    /* Стиль активного пункта в мобильном меню */
+    nav ul#main-menu li a.active {
+         color: var(--secondary-neon); /* Зеленый для активного пункта */
+         background-color: rgba(57, 255, 20, 0.1); /* Легкий зеленый фон */
+    }
+
+    /* Остальные мобильные стили для карточек и т.д. оставляем */
+    .models-list .model-card {
+        flex-direction: column; /* Карточки моделей вертикально */
+    }
+    .model-visual, .model-description {
+        flex-basis: auto; /* Сбросить базис flex */
+    }
+    .model-description { padding: 1.5rem; }
 }
 
 
@@ -1030,18 +1122,3 @@ footer {
 }
 
 /* --- Адаптивность (Пример) --- */
-@media (max-width: 768px) {
-    .hero h1 { font-size: 2.5em; }
-    .hero p { font-size: 1.1em; }
-    .features h2 { font-size: 2.2em; }
-    nav ul { display: none; } /* Скрыть меню для мобильных (потребуется JS для бургер-меню) */
-    .logo { font-size: 1.5em; }
-
-    .models-list .model-card {
-        flex-direction: column; /* Карточки моделей вертикально */
-    }
-    .model-visual, .model-description {
-        flex-basis: auto; /* Сбросить базис flex */
-    }
-    .model-description { padding: 1.5rem; }
-}
